@@ -1,0 +1,29 @@
+{
+  "name": "Nirnroot",
+  "main": "app/app.ts",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.7.3",
+    "@nativescript-community/ui-drawer": "^0.1.4",
+    "@nativescript/core": "~8.4.0",
+    "@nativescript/theme": "~3.0.2",
+    "graphql": "^16.6.0",
+    "nativescript-https": "^2.2.2",
+    "svelte-apollo": "^0.5.0",
+    "svelte-apollo-client": "^0.1.4",
+    "svelte-native": "~1.0.0",
+    "tns-core-modules": "^6.5.27"
+  },
+  "devDependencies": {
+    "@nativescript/android": "8.4.0",
+    "@nativescript/preview-cli": "1.0.2",
+    "@nativescript/types": "~8.4.0",
+    "@nativescript/webpack": "^5.0.12",
+    "svelte": "^3.55.0",
+    "svelte-loader": "^3.1.2",
+    "svelte-native-preprocessor": "^1.0.0",
+    "svelte-preprocess": "^4.7.0",
+    "typescript": "~4.8.4"
+  }
+}

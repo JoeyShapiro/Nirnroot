@@ -1,0 +1,23 @@
+version: '4.8.1'
+services:
+    nirnroot-db:
+        container_name: nirnroot-db
+        image: mysql
+        volumes:
+            - ./server:/docker-entrypoint-initdb.d:ro
+        environment:
+            MYSQL_ROOT_PASSWORD: toor
+            MYSQL_DATABASE: nirnroot
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: toor
+        ports:
+            - "9906:3306"
+    nirnroot-server:
+        container_name: nirnroot-server
+        build: .
+        depends_on:
+            - nirnroot-db
+        ports:
+            - 6060:5000
+        links:
+            - "nirnroot-db"
