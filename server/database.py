@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import scoped_session, sessionmaker, backref, relationship
+from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 engine = create_engine("mysql+pymysql://admin:toor@nirnroot-db:3306/nirnroot?charset=utf8mb4")

@@ -1,10 +1,10 @@
 import graphene
 from database import db_session, TableQuests
-from graph_ql.typedefs import Quests, AddQuestFields
+from graph_ql.typedefs import Quest, AddQuestFields
 
 
 class AddQuest(graphene.Mutation):
-    quest = graphene.Field(lambda: Quests)
+    quest = graphene.Field(lambda: Quest)
     status = graphene.Boolean()
 
     class Arguments:
