@@ -2,7 +2,6 @@ import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from database import TableQuests
 
-
 class Quests(SQLAlchemyObjectType):
     class Meta:
         model = TableQuests

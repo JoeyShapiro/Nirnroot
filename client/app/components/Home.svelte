@@ -29,12 +29,9 @@
                             {:else if $quests.error}
                                 <label>Error {$quests.error.message}</label>
                             {:else}
-                                <!-- <ul>
-                                    <label>done</label> -->
-                                    {#each $quests.data.getQuests as quest}
-                                        <button text="&#xf02d; {quest.title}" class="fas button" on:tap={onCloseDrawer} />
-                                    {/each}
-                                <!-- </ul> -->
+                                {#each $quests.data.getRoot as quest}
+                                    <button text="&#xf02d; {quest.title}" class="fas button" on:tap={() => onQuestSelected(quest.id)} />
+                                {/each}
                             {/if}
                         {/if}
                     </stacklayout>
@@ -48,7 +45,21 @@
     
             <stacklayout prop:mainContent backgroundColor="white">
                 <button on:tap={onOpenDrawer} text="Open Drawer" width="250" marginTop="25" />
-                <button on:tap={getQuests} data-cy="query">Get Quests</button>
+                <!-- <button on:tap={getQuests} data-cy="query">Get Quests</button> -->
+                {#if quest}
+                    {#if $quest.loading}
+                        <label>Loading...</label>
+                    {:else if $quest.error}
+                        <label>Error {$quest.error.message}</label>
+                    {:else}
+                        {#each $quest.data.questsById as q} <!-- should only be one -->
+                            <label>{q.title}</label>
+                            {#if q.description}
+                                <lable>{q.description}</lable>
+                            {/if}
+                        {/each}
+                    {/if}
+                {/if}
             </stacklayout>
         </drawer>
     </gridLayout>
@@ -60,10 +71,19 @@
     let quests: any;
     import { Drawer } from '@nativescript-community/ui-drawer';
     let drawer: Drawer;
+    let quest: any;
+
     function onOpenDrawer() {
-        getQuests()
+        // getQuests()
+        getRoot()
         drawer.open()
     }
+
+    function onQuestSelected(id: string) {
+        getQuest(id)
+        drawer.close()
+    }
+
     function onCloseDrawer() {
         drawer.close()
     }
@@ -93,7 +113,29 @@
             title,
             parentId
         }
-    }`;
+    }`
+
+    const GET_ROOT = gql`
+    query {
+        getRoot {
+            id,
+            title
+        }
+    }`
+
+    const GET_QUEST_DETAILS = gql`
+    query questsById($id: Int!) {
+        questsById(id: $id) {
+            id,
+            type,
+            title,
+            description,
+            parentId,
+            share,
+            secret
+        }
+    }`
+
     import { SvelteApolloClient } from "svelte-apollo-client";
     
     export const client = SvelteApolloClient({
@@ -108,6 +150,19 @@
     function getQuests () {
         quests = client.query(GET_QUESTS);
         $: quests && console.log($quests)
+    }
+
+    function getRoot() {
+        quests = client.query(GET_ROOT)
+        $: quests && console.log($quests)
+    }
+
+    function getQuest(id: any) {
+        quest = client.query(GET_QUEST_DETAILS, {
+                variables: { id }
+            })
+        $: quests && console.log($quests)
+        $: quest && console.log($quest)
     }
 
     onMount(async () => {
