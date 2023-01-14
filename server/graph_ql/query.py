@@ -4,17 +4,22 @@ from graph_ql.typedefs import Quest
 
 
 class Query(graphene.ObjectType):
-    quests = graphene.List(Quest, args={'id': graphene.Int(required=False), 'parent_id': graphene.Int(required=False), 'type': graphene.String()})
+    pargs = {
+        'id': graphene.Int(required=False),
+        'parent_id': graphene.Int(required=False),
+        'type': graphene.String()
+    }
+
+    quests = graphene.List(Quest, args=pargs)
     get_journals = graphene.List(Quest)
     get_root = graphene.List(Quest)
 
     @staticmethod # this whole thing is the CLEANEST SHIT youve ever done seen
     def resolve_quests(parent, info, **kargs):
-        pargs = ['id', 'type', 'parent_id']
         quests_query = Quest.get_query(info) # rename to filtered or seomthing
 
         # check for the args
-        for arg in pargs:
+        for arg in list(Query.pargs.keys()):
             if kargs.get(arg) is not None:
                 quests_query = quests_query.filter(getattr(TableQuests, arg) == kargs.get(arg)).all()
         
