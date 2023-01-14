@@ -4,13 +4,13 @@ from graph_ql.typedefs import Quest
 
 
 class Query(graphene.ObjectType):
-    quests = graphene.List(Quest, id=graphene.Int(required=False))
+    quests = graphene.List(Quest, args={'id': graphene.Int(required=False), 'parent_id': graphene.Int(required=False), 'type': graphene.String()})
     get_journals = graphene.List(Quest)
     get_root = graphene.List(Quest)
 
     @staticmethod # this whole thing is the CLEANEST SHIT youve ever done seen
     def resolve_quests(parent, info, **kargs):
-        pargs = ['id', 'type', 'parentId']
+        pargs = ['id', 'type', 'parent_id']
         quests_query = Quest.get_query(info) # rename to filtered or seomthing
 
         # check for the args
@@ -19,13 +19,3 @@ class Query(graphene.ObjectType):
                 quests_query = quests_query.filter(getattr(TableQuests, arg) == kargs.get(arg)).all()
         
         return quests_query
-    
-    @staticmethod # unneeded
-    def resolve_get_journals(parent, info, **args):
-        quests_query = Quest.get_query(info)
-        return quests_query.filter(TableQuests.type == "journal").all()
-    
-    @staticmethod # unneeded
-    def resolve_get_root(parent, info, **args):
-        quests_query = Quest.get_query(info)
-        return quests_query.filter(TableQuests.parent_id == 0).all()
