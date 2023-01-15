@@ -29,7 +29,7 @@
                             {:else if $quests.error}
                                 <label>Error {$quests.error.message}</label>
                             {:else}
-                                {#each $quests.data.getRoot as quest}
+                                {#each $quests.data.quests as quest}
                                     <button text="&#xf02d; {quest.title}" class="fas button" on:tap={() => onQuestSelected(quest.id)} />
                                 {/each}
                             {/if}
@@ -50,13 +50,16 @@
                     {#if $quest.loading}
                         <label>Loading...</label>
                     {:else if $quest.error}
-                        <label>Error {$quest.error.message}</label>
+                        <label>Error {$quests.error.message}</label>
                     {:else}
-                        {#each $quest.data.questsById as q} <!-- should only be one -->
+                        {#each $quest.data.quests as q} <!-- should only be one -->
                             <label>{q.title}</label>
-                            {#if q.description}
-                                <lable>{q.description}</lable>
-                            {/if}
+                            <!-- <lable>{q.something}</lable> -->
+                            <!-- {#if q.parentId} -->
+                            <label>{q.description}</label>
+                            <!-- {#each Object.entries(q) as [key, value]}
+                                <label>{key}: {value}</label>
+                            {/each} -->
                         {/each}
                     {/if}
                 {/if}
@@ -108,7 +111,7 @@
 
     const GET_QUESTS = gql`
     query {
-        getQuests {
+        quests {
             id,
             title,
             parentId
@@ -117,15 +120,15 @@
 
     const GET_ROOT = gql`
     query {
-        getRoot {
+        quests(type:"journal") {
             id,
             title
         }
     }`
 
     const GET_QUEST_DETAILS = gql`
-    query questsById($id: Int!) {
-        questsById(id: $id) {
+    query quests($id: Int!) {
+        quests(id: $id) {
             id,
             type,
             title,
@@ -159,9 +162,8 @@
 
     function getQuest(id: any) {
         quest = client.query(GET_QUEST_DETAILS, {
-                variables: { id }
-            })
-        $: quests && console.log($quests)
+            variables: { id }
+        })
         $: quest && console.log($quest)
     }
 

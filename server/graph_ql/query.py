@@ -11,8 +11,6 @@ class Query(graphene.ObjectType):
     }
 
     quests = graphene.List(Quest, args=pargs)
-    get_journals = graphene.List(Quest)
-    get_root = graphene.List(Quest)
 
     @staticmethod # this whole thing is the CLEANEST SHIT youve ever done seen
     def resolve_quests(parent, info, **kargs):
