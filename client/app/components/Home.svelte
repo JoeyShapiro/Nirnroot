@@ -1,12 +1,11 @@
 <page>
-    <actionBar title="Home" />
+    <actionBar>
+            <gridlayout>
+                <label class="title fas" horizontalAlignment="center" >Home</label> 
+                <button text="&#xf0c9;" class="fas" on:tap={onOpenDrawer} horizontalAlignment="left" />
+            </gridlayout>
+    </actionBar>
     <gridLayout>
-        <label class="info">
-            <formattedString>
-                <span class="fas" text="&#xf135;" />
-                <span text=" {message}" />
-            </formattedString>
-        </label>
         <!-- This is the whole page -->
         <drawer bind:this={drawer} class="drawer">
             <gridlayout prop:leftDrawer width="300" backgroundColor="white" rows="auto, *">
@@ -43,9 +42,7 @@
                 </stacklayout>
             </gridlayout>
     
-            <stacklayout prop:mainContent backgroundColor="white">
-                <button on:tap={onOpenDrawer} text="Open Drawer" width="250" marginTop="25" />
-                <!-- <button on:tap={getQuests} data-cy="query">Get Quests</button> -->
+            <stacklayout prop:mainContent class="details fas" >
                 {#if quest}
                     {#if $quest.loading}
                         <label>Loading...</label>
@@ -53,13 +50,16 @@
                         <label>Error {$quests.error.message}</label>
                     {:else}
                         {#each $quest.data.quests as q} <!-- should only be one -->
-                            <label>{q.title}</label>
+                            <label class="fas title">{#if q.type == "journal"}&#xf02d;{/if} {q.title}</label>
                             <!-- <lable>{q.something}</lable> -->
                             <!-- {#if q.parentId} -->
-                            <label>{q.description}</label>
+                            <label class="description" textWrap="true" >{q.description}</label>
                             <!-- {#each Object.entries(q) as [key, value]}
                                 <label>{key}: {value}</label>
                             {/each} -->
+                            {#each q.tasks as task}
+                                <label>{task.title}</label>
+                            {/each}
                         {/each}
                     {/if}
                 {/if}
@@ -75,6 +75,10 @@
     import { Drawer } from '@nativescript-community/ui-drawer';
     let drawer: Drawer;
     let quest: any;
+
+    function test(type: string) { // returns string not icon
+        return "&#xf02d;"
+    }
 
     function onOpenDrawer() {
         // getQuests()
@@ -135,7 +139,10 @@
             description,
             parentId,
             share,
-            secret
+            secret,
+            tasks {
+                title
+            }
         }
     }`
 
@@ -148,7 +155,7 @@
     export let authToken: string;
 
     import { onMount } from "svelte";
-    import { Http } from '@nativescript/core'
+    import { DockLayout, Http } from '@nativescript/core'
 
     function getQuests () {
         quests = client.query(GET_QUESTS);
@@ -204,6 +211,21 @@
         font-size: 20;
         /* horizontal-align: center; */
         vertical-align: center;
+    }
+
+    .title {
+        font-size: 20;
+        color: #eeeeee;
+    }
+
+    .details .title {
+        font-size: 20;
+        color: #222222;
+    }
+
+    .details .description {
+        font-size: 15;
+        color: dimgrey;
     }
 
     ActionBar {
