@@ -50,16 +50,25 @@
                         <label>Error {$quests.error.message}</label>
                     {:else}
                         {#each $quest.data.quests as q} <!-- should only be one -->
-                            <label class="fas title">{#if q.type == "journal"}&#xf02d;{/if} {q.title}</label>
-                            <!-- <lable>{q.something}</lable> -->
-                            <!-- {#if q.parentId} -->
-                            <label class="description" textWrap="true" >{q.description}</label>
-                            <!-- {#each Object.entries(q) as [key, value]}
-                                <label>{key}: {value}</label>
-                            {/each} -->
-                            {#each q.tasks as task}
-                                <button class="fas button" on:tap={() => onQuestSelected(task.id)}>{task.title}</button>
-                            {/each}
+                        <docklayout stretchLastChild="true" height="100%">
+                            <stacklayout dock="bottom" orientation="horizontal">
+                                <button class="fas btn-ico" on:tap={() => openModelCreate(q)}>&#xf044;</button>
+                            </stacklayout>
+                            <stacklayout dock="top">
+                                <label class="fas title">{#if q.type == "journal"}&#xf02d;{/if} {q.title}</label>
+                                <!-- <lable>{q.something}</lable> -->
+                                <!-- {#if q.parentId} -->
+                                {#if q.description}
+                                    <label class="description" textWrap="true" >{q.description}</label>
+                                {/if}
+                                <!-- {#each Object.entries(q) as [key, value]}
+                                    <label>{key}: {value}</label>
+                                {/each} -->
+                                {#each q.tasks as task}
+                                    <button class="fas button" on:tap={() => onQuestSelected(task.id)}>{task.title}</button>
+                                {/each}
+                            </stacklayout>
+                        </docklayout>
                         {/each}
                     {/if}
                 {/if}
@@ -93,6 +102,16 @@
 
     function onCloseDrawer() {
         drawer.close()
+    }
+    
+    import ModalQuestCreate from './ModalQuestCreate.svelte'
+    import { showModal } from 'svelte-native'
+
+    let modalTask = "Waiting for modal"
+    async function openModelCreate(q: any) {
+        let task: any = await showModal({ page: ModalQuestCreate, props: { quest: q } })
+        modalTask = `got task: ${task.title}`
+        console.log(modalTask)
     }
 
     import { InMemoryCache } from '@apollo/client/core';
@@ -215,12 +234,12 @@
     }
 
     .title {
-        font-size: 20;
         color: #eeeeee;
     }
 
     .details .title {
-        font-size: 20;
+        font-size: 30;
+        text-align: center;
         color: #222222;
     }
 
