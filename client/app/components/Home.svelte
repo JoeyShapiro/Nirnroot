@@ -58,7 +58,7 @@
                                 <label>{key}: {value}</label>
                             {/each} -->
                             {#each q.tasks as task}
-                                <label>{task.title}</label>
+                                <button class="fas button" on:tap={() => onQuestSelected(task.id)}>{task.title}</button>
                             {/each}
                         {/each}
                     {/if}
@@ -141,6 +141,7 @@
             share,
             secret,
             tasks {
+                id,
                 title
             }
         }
