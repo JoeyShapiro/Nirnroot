@@ -22,3 +22,5 @@ https://github.com/ivailop7/SQL-to-GraphQL-Python
 start updated due. log id status(diff) date
 
 removed .git from client. then just treat as this. confusing to add
+
+mutation different kinds of vars for add/update
