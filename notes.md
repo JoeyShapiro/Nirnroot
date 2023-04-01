@@ -24,3 +24,13 @@ start updated due. log id status(diff) date
 removed .git from client. then just treat as this. confusing to add
 
 mutation different kinds of vars for add/update
+
+## grouping
+solo - all have individual progress, but can see others progress
+party - all share the same progress
+competitive - if one finishes, all others "fail" the quest
+one finish, all finish
+  not sure what i meant
+  can add it later
+  they all have different task completetion, if one finishes the quest, they all finish the quest?
+  kinda pointless, things will be repeated
