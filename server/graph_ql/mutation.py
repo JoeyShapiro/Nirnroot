@@ -7,7 +7,7 @@ from sqlalchemy import update
 class SaveQuest(graphene.Mutation):
     quest = graphene.Field(lambda: Quest)
     status = graphene.Boolean()
-    updatable = [ 'type', 'title', 'description', 'parent_id', 'share', 'secret' ]
+    updatable = [ 'type', 'title', 'description', 'parent_id', 'share', 'secret',  'start_date', 'update_date', 'due_date', 'status', 'grouping']
 
     class Arguments:
         input = SaveQuestFields(required=True)

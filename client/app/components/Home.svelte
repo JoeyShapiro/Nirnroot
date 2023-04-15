@@ -65,7 +65,7 @@
                                     <label>{key}: {value}</label>
                                 {/each} -->
                                 {#each q.tasks as task}
-                                    <button class="fas button" on:tap={() => onQuestSelected(task.id)}>{task.title}</button>
+                                    <button class="fas button" on:tap={() => onQuestSelected(task.id)}>&#xf60b; &#xf02d; &#x{getStatusIcon(task.status)}; {task.title}</button>
                                 {/each}
                             </stacklayout>
                         </docklayout>
@@ -104,6 +104,24 @@
         drawer.close()
     }
     
+    function getStatusIcon(status: string) { // TODO should just use svelte-fa
+        switch (status) {
+            case "pending":
+                return "" //"f60b"//"f60b"
+            case "accepted":
+                return "f192"; // essentially inactive
+            case "active":
+                return "f192";
+            case "cancelled":
+                return "f05e";
+            case "completed":
+                return "f06a";
+        
+            default:
+                return "";
+        }
+    }
+
     import ModalQuestCreate from './ModalQuestCreate.svelte'
     import { showModal } from 'svelte-native'
 
@@ -159,9 +177,11 @@
             parentId,
             share,
             secret,
+            status,
             tasks {
                 id,
-                title
+                title,
+                status
             }
         }
     }`

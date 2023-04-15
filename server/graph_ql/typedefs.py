@@ -15,6 +15,11 @@ class QuestFields:
     parent_id = graphene.Int(required=True)
     share = graphene.Int(required=False)
     secret = graphene.Int(required=True)
+    start_date = graphene.DateTime(required=False)
+    update_date = graphene.DateTime(required=False)
+    due_date = graphene.DateTime(required=False)
+    status = graphene.String(required=False)
+    grouping = graphene.String(required=False)
 
 class SaveQuestFields(graphene.InputObjectType, QuestFields):
     pass

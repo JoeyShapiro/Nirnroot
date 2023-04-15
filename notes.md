@@ -34,3 +34,5 @@ one finish, all finish
   can add it later
   they all have different task completetion, if one finishes the quest, they all finish the quest?
   kinda pointless, things will be repeated
+
+pen-to-square

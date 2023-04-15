@@ -17,5 +17,10 @@ class TableQuests(Base):
     parent_id = Column(Integer, ForeignKey('quests.id'))
     share = Column(Integer)
     secret = Column(Integer)
+    start_date = Column(String)
+    update_date = Column(String)
+    due_date = Column(String)
+    status = Column(String)
+    grouping = Column(String)
 
     tasks = relationship('TableQuests')
