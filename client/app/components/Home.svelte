@@ -52,7 +52,8 @@
                         {#each $quest.data.quests as q} <!-- should only be one -->
                         <docklayout stretchLastChild="true" height="100%">
                             <stacklayout dock="bottom" orientation="horizontal">
-                                <button class="fas btn-ico" on:tap={() => openModelCreate(q)}>&#xf044;</button>
+                                <button class="fas btn-ico" on:tap={() => onQuestSelected(q.parentId)}>&#xf060;</button> <!-- back -->
+                                <button class="fas btn-ico" on:tap={() => openModelCreate(q)}>&#xf044;</button> <!-- compose -->
                             </stacklayout>
                             <stacklayout dock="top">
                                 <label class="fas title">{#if q.type == "journal"}&#xf02d;{/if} {q.title}</label>
