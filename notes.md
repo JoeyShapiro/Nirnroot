@@ -36,3 +36,5 @@ one finish, all finish
   kinda pointless, things will be repeated
 
 pen-to-square
+
+https://blog.nativescript.org/how-to-use-any-npm-module-with-nativescript/

@@ -65,7 +65,7 @@
                                     <label>{key}: {value}</label>
                                 {/each} -->
                                 {#each q.tasks as task}
-                                    <button class="fas button" on:tap={() => onQuestSelected(task.id)}>&#xf60b; &#xf02d; &#x{getStatusIcon(task.status)}; {task.title}</button>
+                                    <button class="fas button" on:tap={() => onQuestSelected(task.id)}>{getStatusIcon(task.status)}{task.title}</button>
                                 {/each}
                             </stacklayout>
                         </docklayout>
@@ -104,18 +104,18 @@
         drawer.close()
     }
     
-    function getStatusIcon(status: string) { // TODO should just use svelte-fa
+    function getStatusIcon(status: string) { // wish i could use i tags, but ns is weird
         switch (status) {
             case "pending":
-                return "" //"f60b"//"f60b"
+                return String.fromCharCode(0xf059)
             case "accepted":
-                return "f192"; // essentially inactive
+                return String.fromCharCode(0xf605); // essentially inactive
             case "active":
-                return "f192";
+                return String.fromCharCode(0xf3c5);
             case "cancelled":
-                return "f05e";
+                return String.fromCharCode(0xf05e);
             case "completed":
-                return "f06a";
+                return String.fromCharCode(0xf06a);
         
             default:
                 return "";
