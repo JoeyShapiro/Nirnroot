@@ -66,7 +66,7 @@
                                     <label>{key}: {value}</label>
                                 {/each} -->
                                 {#each q.tasks as task}
-                                    <button class="fas button" on:tap={() => onQuestSelected(task.id)}>{getStatusIcon(task.status)}{task.title}</button>
+                                    <button class="fas button" on:tap={() => onTaskSelected(task)}>{getStatusIcon(task.status)}{task.title}</button>
                                 {/each}
                             </stacklayout>
                         </docklayout>
@@ -94,6 +94,15 @@
         // getQuests()
         getRoot()
         drawer.open()
+    }
+
+    function onTaskSelected(task: any) {
+        console.log(task)
+        if (task.type == "task") {
+            viewModalTask(task)
+        } else {
+            onQuestSelected(task.id)
+        }
     }
 
     function onQuestSelected(id: string) {
@@ -129,6 +138,12 @@
     let modalTask = "Waiting for modal"
     async function openModelCreate(q: any) {
         let task: any = await showModal({ page: ModalQuestCreate, props: { quest: q } })
+        modalTask = `got task: ${task.title}`
+        console.log(modalTask)
+    }
+
+    async function viewModalTask(t: any) {
+        let task: any = await showModal({ page: ModalViewTask, props: { task: t } })
         modalTask = `got task: ${task.title}`
         console.log(modalTask)
     }
@@ -182,7 +197,8 @@
             tasks {
                 id,
                 title,
-                status
+                status,
+                type
             }
         }
     }`
@@ -197,6 +213,7 @@
 
     import { onMount } from "svelte";
     import { DockLayout, Http } from '@nativescript/core'
+    import ModalViewTask from './ModalViewTask.svelte';
 
     function getQuests () {
         quests = client.query(GET_QUESTS);
